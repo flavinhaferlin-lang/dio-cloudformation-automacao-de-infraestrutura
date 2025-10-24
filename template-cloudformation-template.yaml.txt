@@ -1,0 +1,36 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: >
+  Template de exemplo para o desafio DIO — cria um bucket S3 e um tópico SNS.
+
+Parameters:
+  BucketName:
+    Type: String
+    Description: Nome do bucket S3 (único globalmente)
+    Default: dio-cloudformation-exemplo-${AWS::AccountId}
+
+Resources:
+  MyS3Bucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Ref BucketName
+      AccessControl: Private
+      VersioningConfiguration:
+        Status: Enabled
+      Tags:
+        - Key: Project
+          Value: DIO-CloudFormation
+
+  MyTopic:
+    Type: AWS::SNS::Topic
+    Properties:
+      DisplayName: DIO-CloudFormation-Topic
+      TopicName: dio-cloudformation-topic
+
+Outputs:
+  S3BucketName:
+    Description: Nome do bucket S3 criado
+    Value: !Ref MyS3Bucket
+
+  SnsTopicArn:
+    Description: ARN do tópico SNS criado
+    Value: !Ref MyTopic
